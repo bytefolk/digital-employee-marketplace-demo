@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数字员工交易平台 · 界面效果图</title>
+<style>
+  :root {
+    --bg: #eef2f7;
+    --surface: #ffffff;
+    --surface-2: #f8fafc;
+    --surface-3: #f1f5f9;
+    --border: #e2e8f0;
+    --border-strong: #cbd5e1;
+    --text: #0f172a;
+    --text-2: #475569;
+    --text-3: #94a3b8;
+    --blue: #2563eb;
+    --blue-d: #1d4ed8;
+    --blue-soft: #eff6ff;
+    --green: #059669;
+    --green-soft: #ecfdf5;
+    --amber: #d97706;
+    --amber-soft: #fffbeb;
+    --red: #dc2626;
+    --red-soft: #fef2f2;
+    --purple: #7c3aed;
+    --purple-soft: #f5f3ff;
+    --radius: 12px;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    --shadow: 0 1px 2px rgba(15,23,42,.05), 0 8px 24px rgba(15,23,42,.07);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
+    line-height: 1.6; -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 24px 72px; }
+
+  /* ---------- top nav ---------- */
+  .topnav {
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    padding: 13px 0; margin-bottom: 34px;
+  }
+  .topnav .inner { max-width: 1240px; margin: 0 auto; padding: 0 24px;
+    display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .topnav .brand { font-weight: 700; font-size: 14.5px; }
+  .topnav .links { display: flex; gap: 6px; }
+  .topnav a {
+    font-size: 13px; color: var(--text-2); text-decoration: none;
+    padding: 5px 12px; border-radius: 7px; border: 1px solid transparent;
+  }
+  .topnav a:hover { background: var(--surface-3); }
+  .topnav a.on { background: var(--blue-soft); color: var(--blue-d); border-color: #bfdbfe; font-weight: 600; }
+
+  /* ---------- hero ---------- */
+  header.hero { padding: 8px 0 30px; }
+  .eyebrow { display: inline-block; font-size: 12px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--blue); font-weight: 700; margin-bottom: 11px; }
+  h1 { font-size: 32px; line-height: 1.25; margin: 0 0 12px; letter-spacing: -.01em; }
+  .lede { font-size: 16px; color: var(--text-2); max-width: 760px; margin: 0 0 18px; }
+  .hero-meta { display: flex; flex-wrap: wrap; gap: 10px; }
+  .chip { display: inline-flex; align-items: center; gap: 7px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 999px; padding: 5px 13px;
+    font-size: 12.5px; color: var(--text-2); }
+  .chip b { color: var(--text); font-weight: 600; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; flex: none; }
+  .dot.plan { background: var(--amber); }
+  .dot.ok { background: var(--green); }
+
+  /* ---------- tab bar ---------- */
+  .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 20px; }
+  .tab {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 9px; padding: 9px 16px; font-size: 13.5px; cursor: pointer;
+    color: var(--text-2); font-family: inherit; transition: all .15s;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .tab:hover { border-color: var(--border-strong); }
+  .tab.on { background: var(--text); color: #fff; border-color: var(--text); font-weight: 600; }
+  .tab .n { font-size: 11px; opacity: .6; font-weight: 700; }
+
+  /* ---------- screen frame ---------- */
+  .frame {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); margin-bottom: 16px;
+  }
+  .frame-bar {
+    height: 40px; background: var(--surface-3); border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 7px; padding: 0 15px;
+  }
+  .frame-bar .d { width: 11px; height: 11px; border-radius: 50%; }
+  .frame-bar .d1 { background: #f87171; } .frame-bar .d2 { background: #fbbf24; } .frame-bar .d3 { background: #34d399; }
+  .frame-bar .url {
+    margin-left: 12px; flex: 1; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 6px; padding: 3px 12px; font-size: 12px; color: var(--text-3);
+    font-family: var(--mono);
+  }
+
+  /* ---------- app shell ---------- */
+  .app { display: flex; min-height: 520px; }
+  .app.single { display: block; }
+  .side {
+    width: 208px; flex: none; background: var(--surface-2);
+    border-right: 1px solid var(--border); padding: 18px 14px;
+  }
+  .side .logo { font-weight: 700; font-size: 14px; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+  .side .logo .sq { width: 22px; height: 22px; border-radius: 6px; background: var(--blue);
+    display: grid; place-items: center; color: #fff; font-size: 11px; font-weight: 700; }
+  .navgrp { font-size: 10.5px; text-transform: uppercase; letter-spacing: .07em;
+    color: var(--text-3); font-weight: 700; margin: 16px 0 7px; padding-left: 9px; }
+  .navitem {
+    font-size: 13px; padding: 7px 10px; border-radius: 7px; color: var(--text-2);
+    display: flex; align-items: center; gap: 8px; margin-bottom: 2px;
+  }
+  .navitem.on { background: var(--blue-soft); color: var(--blue-d); font-weight: 600; }
+  .navitem .ic { width: 15px; text-align: center; opacity: .75; font-size: 12px; }
+  .main { flex: 1; padding: 24px 26px; min-width: 0; }
+
+  /* ---------- generic bits ---------- */
+  .pg-title { font-size: 19px; margin: 0 0 3px; font-weight: 700; }
+  .pg-sub { font-size: 13px; color: var(--text-2); margin: 0 0 18px; }
+
+  .searchbar { display: flex; gap: 10px; margin-bottom: 14px; }
+  .searchbar input {
+    flex: 1; padding: 9px 14px; border: 1px solid var(--border); border-radius: 9px;
+    font-size: 13.5px; font-family: inherit; background: var(--surface); color: var(--text);
+  }
+  .searchbar .btn {
+    padding: 9px 18px; background: var(--blue); color: #fff; border: none;
+    border-radius: 9px; font-size: 13.5px; font-weight: 600; font-family: inherit; cursor: pointer;
+  }
+  .filters { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 20px; }
+  .fchip {
+    font-size: 12px; padding: 4px 12px; border-radius: 999px;
+    border: 1px solid var(--border); background: var(--surface); color: var(--text-2);
+  }
+  .fchip.on { background: var(--blue-soft); border-color: #bfdbfe; color: var(--blue-d); font-weight: 600; }
+
+  /* ---------- employee cards ---------- */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(238px, 1fr)); gap: 14px; }
+  .ecard {
+    border: 1px solid var(--border); border-radius: 11px; padding: 16px;
+    background: var(--surface); transition: all .15s;
+  }
+  .ecard:hover { border-color: var(--blue); box-shadow: 0 4px 14px rgba(37,99,235,.10); }
+  .ecard .top { display: flex; gap: 11px; align-items: center; margin-bottom: 11px; }
+  .avatar {
+    width: 38px; height: 38px; border-radius: 9px; flex: none;
+    display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 14px;
+  }
+  .ecard .nm { font-size: 14px; font-weight: 600; line-height: 1.3; }
+  .ecard .rl { font-size: 11.5px; color: var(--text-3); }
+  .ecard .desc { font-size: 12.5px; color: var(--text-2); margin: 0 0 11px;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 12px; }
+  .tag { font-size: 10.5px; padding: 2px 8px; border-radius: 5px;
+    background: var(--surface-3); color: var(--text-2); border: 1px solid var(--border); }
+  .tag.eng { background: var(--purple-soft); color: #5b21b6; border-color: #ddd6fe; }
+  .ecard .foot {
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px dashed var(--border); padding-top: 11px;
+  }
+  .price { font-size: 14px; font-weight: 700; }
+  .price .u { font-size: 11px; font-weight: 500; color: var(--text-3); }
+  .ver { font-size: 11px; color: var(--text-3); font-family: var(--mono); }
+
+  /* ---------- detail ---------- */
+  .two-col { display: grid; grid-template-columns: 1fr 320px; gap: 22px; }
+  @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } .app { flex-direction: column; } .side { width: 100%; border-right: none; border-bottom: 1px solid var(--border); } }
+  .panel { border: 1px solid var(--border); border-radius: 11px; padding: 18px; background: var(--surface); }
+  .panel h4 { margin: 0 0 13px; font-size: 14px; }
+  .kv { display: flex; justify-content: space-between; gap: 14px; padding: 8px 0;
+    border-bottom: 1px dashed var(--border); font-size: 13px; }
+  .kv:last-child { border-bottom: none; }
+  .kv .k { color: var(--text-2); flex: none; }
+  .kv .v { font-family: var(--mono); font-size: 12px; text-align: right; word-break: break-all; }
+  .kv .v.plain { font-family: inherit; font-size: 13px; }
+
+  .btn-primary {
+    width: 100%; padding: 11px; background: var(--blue); color: #fff; border: none;
+    border-radius: 9px; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer;
+    margin-top: 14px;
+  }
+  .btn-ghost {
+    width: 100%; padding: 9px; background: var(--surface); color: var(--text-2);
+    border: 1px solid var(--border); border-radius: 9px; font-size: 13px;
+    font-family: inherit; cursor: pointer; margin-top: 8px;
+  }
+  .callout {
+    background: var(--blue-soft); border: 1px solid #bfdbfe; border-radius: 9px;
+    padding: 11px 13px; font-size: 12.5px; color: #1e40af; margin-top: 13px;
+  }
+  .callout.amber { background: var(--amber-soft); border-color: #fde68a; color: #78350f; }
+
+  .hist { margin-top: 22px; }
+  .hrow { display: flex; gap: 12px; align-items: flex-start; padding: 11px 0;
+    border-bottom: 1px dashed var(--border); font-size: 13px; }
+  .hrow:last-child { border-bottom: none; }
+  .hrow .vtag { font-family: var(--mono); font-size: 11.5px; padding: 2px 8px; border-radius: 5px;
+    background: var(--surface-3); border: 1px solid var(--border); flex: none; }
+  .hrow .vtag.cur { background: var(--green-soft); border-color: #a7f3d0; color: #065f46; font-weight: 600; }
+  .hrow .chg { color: var(--text-2); }
+  .lock { font-size: 11px; color: var(--text-3); display: flex; align-items: center; gap: 5px; }
+
+  /* ---------- quote / order ---------- */
+  .quote-box { border: 2px solid var(--blue); border-radius: 11px; padding: 18px; background: var(--blue-soft); }
+  .quote-box h4 { margin: 0 0 4px; font-size: 15px; color: #1e40af; }
+  .quote-box .sub { font-size: 12px; color: #1e40af; opacity: .8; margin: 0 0 14px; }
+  .qline { display: flex; justify-content: space-between; font-size: 13.5px; padding: 7px 0; }
+  .qline.total { border-top: 1px solid #bfdbfe; margin-top: 8px; padding-top: 12px;
+    font-weight: 700; font-size: 15px; }
+  .bal { display: flex; justify-content: space-between; align-items: center;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 9px;
+    padding: 12px 15px; margin-bottom: 16px; font-size: 13px; }
+  .bal .amt { font-size: 19px; font-weight: 700; }
+  .bal .amt .u { font-size: 12px; font-weight: 500; color: var(--text-3); }
+
+  /* ---------- orders table ---------- */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; padding: 10px 12px; font-size: 11px; text-transform: uppercase;
+    letter-spacing: .05em; color: var(--text-3); font-weight: 700;
+    border-bottom: 1px solid var(--border); }
+  td { padding: 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  .pill { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 999px;
+    border: 1px solid transparent; white-space: nowrap; display: inline-block; }
+  .pill.created { background: var(--blue-soft); color: #1e40af; border-color: #bfdbfe; }
+  .pill.authorized { background: var(--green-soft); color: #065f46; border-color: #a7f3d0; }
+  .pill.cancelled { background: var(--surface-3); color: var(--text-2); border-color: var(--border); }
+  .pill.expired { background: var(--amber-soft); color: #92400e; border-color: #fde68a; }
+  .mono { font-family: var(--mono); font-size: 11.5px; color: var(--text-2); }
+
+  /* ---------- seller console ---------- */
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 22px; }
+  .stat { border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; background: var(--surface); }
+  .stat .lab { font-size: 11.5px; color: var(--text-3); margin-bottom: 5px; }
+  .stat .val { font-size: 22px; font-weight: 700; letter-spacing: -.01em; }
+  .stat .val .u { font-size: 12px; font-weight: 500; color: var(--text-3); letter-spacing: 0; }
+
+  .lrow { display: flex; align-items: center; gap: 14px; padding: 14px 0;
+    border-bottom: 1px dashed var(--border); }
+  .lrow:last-child { border-bottom: none; }
+  .lrow .avatar { width: 34px; height: 34px; }
+  .lrow .nm { font-size: 13.5px; font-weight: 600; }
+  .lrow .meta { font-size: 11.5px; color: var(--text-3); }
+  .lrow .right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+
+  /* ---------- authorization ---------- */
+  .auth-panel { background: #0f172a; color: #e2e8f0; border-radius: 11px; padding: 18px 20px; font-family: var(--mono); }
+  .auth-panel .hd { font-family: inherit; font-size: 13px; font-weight: 700; color: #fff;
+    margin-bottom: 13px; display: flex; justify-content: space-between; align-items: center; }
+  .auth-panel .hd .ok { background: var(--green); color: #fff; font-size: 11px;
+    padding: 2px 10px; border-radius: 999px; font-weight: 700; }
+  .chk { display: flex; justify-content: space-between; padding: 7px 0; font-size: 12.5px;
+    border-bottom: 1px solid #1e293b; }
+  .chk:last-of-type { border-bottom: none; }
+  .chk .l { color: #94a3b8; }
+  .chk .r { color: #fff; display: flex; align-items: center; gap: 7px; }
+  .chk .r .tick { color: #34d399; font-weight: 700; }
+  .digest { margin-top: 14px; padding-top: 13px; border-top: 1px solid #1e293b;
+    font-size: 11.5px; color: #94a3b8; word-break: break-all; line-height: 1.7; }
+  .digest b { color: #fff; display: block; font-size: 11px; margin-bottom: 4px; }
+
+  .screen-note {
+    background: var(--amber-soft); border: 1px solid #fde68a; border-left: 3px solid var(--amber);
+    border-radius: 10px; padding: 13px 17px; font-size: 13px; color: #78350f; margin-bottom: 26px;
+  }
+  .screen-note b { color: #451a03; }
+
+  .hidden { display: none; }
+  footer { margin-top: 46px; padding-top: 20px; border-top: 1px solid var(--border);
+    font-size: 13px; color: var(--text-3); display: flex; flex-wrap: wrap; gap: 8px 18px; }
+  footer a { color: var(--blue); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="topnav">
+  <div class="inner">
+    <span class="brand">数字员工交易平台</span>
+    <div class="links">
+      <a href="index.html">功能图</a>
+      <a class="on" href="screens.html">界面效果图</a>
+      <a href="https://github.com/bytefolk/digital-employee-platform/issues/12">需求 #12</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<header class="hero">
+  <span class="eyebrow">UI Concept · 界面效果图</span>
+  <h1>交易平台长什么样</h1>
+  <p class="lede">
+    六个关键界面的高保真效果稿。所有字段都取自真实的域模型——listing 绑定的四元组、
+    RateCard 快照、订单状态机与授权摘要，界面上出现的每一个值都能在代码里找到对应。
+  </p>
+  <div class="hero-meta">
+    <span class="chip"><span class="dot plan"></span><b>设计稿</b> · 尚未实现</span>
+    <span class="chip"><span class="dot ok"></span>字段取自 <b>src/catalog/*</b></span>
+    <span class="chip">买方侧 <b>4 屏</b></span>
+    <span class="chip">卖方侧 <b>1 屏</b></span>
+    <span class="chip">放行授权 <b>1 屏</b></span>
+  </div>
+</header>
+
+<div class="screen-note">
+  <b>这是界面设计稿，不是截图。</b>当前代码只有<strong>内存参考实现</strong>——面向买方的 HTTP API 尚未落地，
+  所以下面没有一屏是能真正打开的。稿子的用途是<strong>对齐产品形态</strong>与<strong>对外展示</strong>，
+  字段与状态都严格按真实域模型绘制，实现时不需要重新发明。
+</div>
+
+<div class="tabs" id="tabs"></div>
+<div id="screens"></div>
+
+<footer>
+  <span>ByteFolk · digital-employee-marketplace-demo</span>
+  <a href="index.html">功能图</a>
+  <a href="https://github.com/bytefolk/digital-employee-platform/issues/12">需求记录 #12</a>
+  <a href="https://github.com/bytefolk/digital-employee-platform/pull/13">PR #13</a>
+</footer>
+
+</div>
+
+<script>
+var SCREENS = [
+  {
+    name: "发现市场", n: "01", url: "marketplace.bytefolk.dev/discover",
+    shell: true,
+    html: '<div class="side">' +
+      '<div class="logo"><span class="sq">BF</span>数字员工市场</div>' +
+      '<div class="navgrp">买方</div>' +
+      '<div class="navitem on"><span class="ic">◎</span>发现</div>' +
+      '<div class="navitem"><span class="ic">▤</span>我的订单</div>' +
+      '<div class="navitem"><span class="ic">◉</span>Credits</div>' +
+      '<div class="navgrp">卖方</div>' +
+      '<div class="navitem"><span class="ic">◇</span>控制台</div>' +
+      '<div class="navitem"><span class="ic">↑</span>发布新版本</div>' +
+      '</div>' +
+      '<div class="main">' +
+      '<h3 class="pg-title">发现数字员工</h3>' +
+      '<p class="pg-sub">按能力、引擎与计价方式浏览已发布的员工版本。</p>' +
+      '<div class="searchbar"><input value="代码评审"><span class="btn">搜索</span></div>' +
+      '<div class="filters">' +
+      '<span class="fchip on">全部</span><span class="fchip">代码与研发</span><span class="fchip">数据分析</span>' +
+      '<span class="fchip">内容创作</span><span class="fchip">运维</span>' +
+      '<span class="fchip">引擎：qoder</span><span class="fchip">引擎：claude</span>' +
+      '</div>' +
+      '<div class="grid">' +
+      card("蓝","PR 评审员","代码与研发","自动审查 PR diff，输出分级问题清单与修复建议。",["代码评审","PR","静态分析"],"qoder","120","v1.4.0") +
+      card("紫","数据洞察师","数据分析","接数据源做清洗、建模与可视化，产出可复现的分析报告。",["SQL","可视化","报表"],"claude","260","v2.1.0") +
+      card("绿","发布管家","运维","按语义化版本整理变更、生成发布说明并打标签。",["CI/CD","Release","Changelog"],"qoder","80","v1.0.3") +
+      card("橙","文档整理员","内容创作","把散落的会议纪要与 issue 整理成结构化文档。",["文档","纪要","归档"],"claude","150","v1.2.0") +
+      card("青","接口测试员","代码与研发","按接口定义生成并跑测试用例，输出覆盖率与失败明细。",["测试","API","覆盖率"],"qoder","180","v0.9.1") +
+      card("靛","合规核查员","运维","扫描依赖许可与配置风险，输出可追踪的整改清单。",["合规","许可","审计"],"claude","210","v1.1.0") +
+      '</div></div>'
+  },
+  {
+    name: "员工详情", n: "02", url: "marketplace.bytefolk.dev/employees/pr-reviewer",
+    shell: true,
+    html: '<div class="side">' +
+      '<div class="logo"><span class="sq">BF</span>数字员工市场</div>' +
+      '<div class="navgrp">买方</div>' +
+      '<div class="navitem"><span class="ic">◎</span>发现</div>' +
+      '<div class="navitem"><span class="ic">▤</span>我的订单</div>' +
+      '<div class="navitem"><span class="ic">◉</span>Credits</div>' +
+      '</div>' +
+      '<div class="main">' +
+      '<div class="two-col">' +
+      '<div>' +
+      '<h3 class="pg-title">PR 评审员</h3>' +
+      '<p class="pg-sub">由 无极科技 · 平台组 发布 · 当前版本 v1.4.0</p>' +
+      '<div class="panel" style="margin-bottom:16px">' +
+      '<h4>发布身份（不可变）</h4>' +
+      kv("employeeId","emp_pr_reviewer") +
+      kv("employeeVersion","1.4.0") +
+      kv("packageDigest","sha256:7f3a9c…e41b") +
+      kv("engine","qoder") +
+      kv("RateCard 版本","rc_v3") +
+      '</div>' +
+      '<div class="panel">' +
+      '<h4>版本历史（append-only）</h4>' +
+      hrow("v1.4.0","当前版本 · 提高 diff 分块精度，调整计价","cur") +
+      hrow("v1.3.2","修复大文件截断","") +
+      hrow("v1.3.0","新增安全规则集","") +
+      '<div class="lock" style="margin-top:12px">🔒 已发布版本不可编辑；改价或换包只会产生新版本。</div>' +
+      '</div></div>' +
+      '<div>' +
+      '<div class="panel" style="border-color:#bfdbfe;background:var(--blue-soft)">' +
+      '<h4 style="color:#1e40af">计价（RateCard rc_v3）</h4>' +
+      qline("基础调用","80 Credits") +
+      qline("每千 token","12 Credits") +
+      qline("结果接受","40 Credits") +
+      '<div class="qline total"><span>单次预估</span><span>120 Credits</span></div>' +
+      '<span class="btn-primary">下单</span>' +
+      '<div class="callout">下单价按<b>当前版本</b>的 RateCard 生成不可变快照。之后卖家改价，你这一单不受影响。</div>' +
+      '</div></div></div></div>'
+  },
+  {
+    name: "下单确认", n: "03", url: "marketplace.bytefolk.dev/checkout",
+    shell: true,
+    html: '<div class="side">' +
+      '<div class="logo"><span class="sq">BF</span>数字员工市场</div>' +
+      '<div class="navgrp">买方</div>' +
+      '<div class="navitem"><span class="ic">◎</span>发现</div>' +
+      '<div class="navitem"><span class="ic">▤</span>我的订单</div>' +
+      '<div class="navitem on"><span class="ic">◉</span>Credits</div>' +
+      '</div>' +
+      '<div class="main">' +
+      '<h3 class="pg-title">确认并授权这一次运行</h3>' +
+      '<p class="pg-sub">PR 评审员 · v1.4.0 · 引擎 qoder</p>' +
+      '<div class="two-col">' +
+      '<div>' +
+      '<div class="quote-box">' +
+      '<h4>Quote 快照</h4>' +
+      '<p class="sub">来自 RateCard rc_v3 · 不可变</p>' +
+      qline("基础调用","80 Credits") +
+      qline("预估 token（3.3k）","40 Credits") +
+      qline("结果接受","40 Credits") +
+      '<div class="qline total"><span>上限</span><span>160 Credits</span></div>' +
+      '</div>' +
+      '<div class="callout amber" style="margin-top:14px">' +
+      'Quote 是<b>不可变快照</b>：本单按上面的价格结算，与卖家之后是否调价无关。' +
+      '实际结算只扣<b>已覆盖维度</b>，且不超过这个上限。' +
+      '</div>' +
+      '</div>' +
+      '<div>' +
+      '<div class="bal"><span>Credits 余额</span><span class="amt">2,480 <span class="u">Credits</span></span></div>' +
+      '<div class="panel">' +
+      '<h4>本次授权</h4>' +
+      kv("买方主体","tenant_acme / buyer","plain") +
+      kv("有效期","30 分钟（服务端时钟）","plain") +
+      kv("幂等键","auto-generated","plain") +
+      '<span class="btn-primary">授权并放行</span>' +
+      '<span class="btn-ghost">仅下单，稍后授权</span>' +
+      '<div class="callout">授权后订单进入终态 <b>authorized</b>，生成不可变的买方可见授权摘要。' +
+      '卖家、平台或任何人都不能再改动它。</div>' +
+      '</div></div></div></div>'
+  },
+  {
+    name: "我的订单", n: "04", url: "marketplace.bytefolk.dev/orders",
+    shell: true,
+    html: '<div class="side">' +
+      '<div class="logo"><span class="sq">BF</span>数字员工市场</div>' +
+      '<div class="navgrp">买方</div>' +
+      '<div class="navitem"><span class="ic">◎</span>发现</div>' +
+      '<div class="navitem on"><span class="ic">▤</span>我的订单</div>' +
+      '<div class="navitem"><span class="ic">◉</span>Credits</div>' +
+      '</div>' +
+      '<div class="main">' +
+      '<h3 class="pg-title">我的订单</h3>' +
+      '<p class="pg-sub">状态机：<code class="mono">created → authorized | cancelled | expired</code>，后三个为终态且不可逆。</p>' +
+      '<div class="panel">' +
+      '<table><thead><tr><th>订单</th><th>员工版本</th><th>Quote</th><th>状态</th><th>授权摘要</th><th>时间</th></tr></thead><tbody>' +
+      orow("ord_9f2a","PR 评审员 v1.4.0","160 Credits","authorized","sha256:4b1d…8ac2","09-27 14:02") +
+      orow("ord_7c81","数据洞察师 v2.1.0","320 Credits","authorized","sha256:e07f…31bd","09-27 11:48") +
+      orow("ord_5b3e","接口测试员 v0.9.1","180 Credits","created","—","09-27 10:15") +
+      orow("ord_3a10","文档整理员 v1.2.0","150 Credits","cancelled","—","09-26 18:33") +
+      orow("ord_1d77","发布管家 v1.0.3","80 Credits","expired","—","09-26 09:07") +
+      '</tbody></table></div>' +
+      '<div class="callout" style="margin-top:14px">终态不可逆：<b>authorized</b> / <b>cancelled</b> / <b>expired</b> 一旦进入就不能再变更；' +
+      '重复授权会被拒绝，不会扣第二次 Credits。</div>' +
+      '</div>'
+  },
+  {
+    name: "卖方控制台", n: "05", url: "marketplace.bytefolk.dev/console",
+    shell: true,
+    html: '<div class="side">' +
+      '<div class="logo"><span class="sq">BF</span>数字员工市场</div>' +
+      '<div class="navgrp">卖方</div>' +
+      '<div class="navitem on"><span class="ic">◇</span>控制台</div>' +
+      '<div class="navitem"><span class="ic">↑</span>发布新版本</div>' +
+      '<div class="navitem"><span class="ic">▤</span>订单</div>' +
+      '<div class="navitem"><span class="ic">◉</span>应收</div>' +
+      '</div>' +
+      '<div class="main">' +
+      '<h3 class="pg-title">控制台</h3>' +
+      '<p class="pg-sub">无极科技 · 平台组</p>' +
+      '<div class="stat-grid">' +
+      stat("已发布员工","6") +
+      stat("本月已授权","128") +
+      stat("本期应收","12,460","Credits") +
+      stat("待结算","3,120","Credits") +
+      '</div>' +
+      '<div class="panel">' +
+      '<h4>已发布的 Listing</h4>' +
+      lrow("蓝","PR 评审员","当前 v1.4.0 · RateCard rc_v3 · 共 4 个版本","已发布") +
+      lrow("紫","数据洞察师","当前 v2.1.0 · RateCard rc_v2 · 共 7 个版本","已发布") +
+      lrow("绿","发布管家","当前 v1.0.3 · RateCard rc_v1 · 共 2 个版本","已发布") +
+      '<div class="lock" style="margin-top:14px">🔒 改价、换包或换引擎只能<b>发布新版本</b>；' +
+      '已按旧版本下单的订单，其授权摘要不受影响。</div>' +
+      '</div>' +
+      '</div>'
+  },
+  {
+    name: "放行授权", n: "06", url: "platform · ReleaseAuthorizer",
+    shell: false,
+    html: '<div class="main">' +
+      '<h3 class="pg-title">放行授权 · 逐项比对</h3>' +
+      '<p class="pg-sub">控制平面在放行时调用 <code class="mono">CatalogReleaseAuthorizer</code>，逐项比对持久化订单与传入的运行请求。</p>' +
+      '<div class="two-col">' +
+      '<div>' +
+      '<div class="auth-panel">' +
+      '<div class="hd"><span>ReleaseAuthorization · ord_9f2a</span><span class="ok">AUTHORIZED</span></div>' +
+      chk("Quote","rc_v3 / 160 Credits",true) +
+      chk("employeeVersion","1.4.0",true) +
+      chk("packageDigest","sha256:7f3a9c…e41b",true) +
+      chk("engine","qoder",true) +
+      chk("buyer","tenant_acme / buyer",true) +
+      chk("有效期","未过期（服务端时钟）",true) +
+      '<div class="digest"><b>authorizationDigest</b>sha256:4b1d7c9e2a8f3b6d1c5e9a4f8b2d7c6e3a1f5b9d8c4e2a7f6b3d1c9e5a8f2b4d</div>' +
+      '</div>' +
+      '<div class="callout" style="margin-top:14px">摘要由<b>存储的订单字节</b>重算得出，不可由调用方提供；' +
+      '端口也没有任何宽松默认值。匹配才放行，否则预留不到 Credits、也产生不了可认领任务。</div>' +
+      '</div>' +
+      '<div>' +
+      '<div class="panel">' +
+      '<h4>不匹配时的拒绝码</h4>' +
+      rej("authorization_not_recorded","订单从未授权，或找不到授权记录") +
+      rej("quote_mismatch","传入 Quote 与订单绑定的 RateCard 不一致") +
+      rej("employee_mismatch","员工 ID 或版本与 listing 版本不一致") +
+      rej("package_digest_mismatch","要跑的包和下单时的不是同一个") +
+      rej("engine_mismatch","引擎与 listing 版本声明的不一致") +
+      rej("authorization_expired","已过期，由服务端时钟判定") +
+      '</div></div></div></div>'
+  }
+];
+
+function card(color, name, role, desc, tags, engine, price, ver) {
+  var bg = { "蓝": "#2563eb", "紫": "#7c3aed", "绿": "#059669", "橙": "#d97706", "青": "#0891b2", "靛": "#4f46e5" }[color];
+  var t = tags.map(function (x) { return '<span class="tag">' + x + "</span>"; }).join("")
+    + '<span class="tag eng">' + engine + "</span>";
+  return '<div class="ecard">' +
+    '<div class="top"><div class="avatar" style="background:' + bg + '">' + name.charAt(0) + "</div>" +
+    '<div><div class="nm">' + name + '</div><div class="rl">' + role + "</div></div></div>" +
+    '<p class="desc">' + desc + "</p>" +
+    '<div class="tags">' + t + "</div>" +
+    '<div class="foot"><span class="price">' + price + ' <span class="u">Credits</span></span>' +
+    '<span class="ver">' + ver + "</span></div></div>";
+}
+function kv(k, v, plain) {
+  return '<div class="kv"><span class="k">' + k + '</span><span class="v' + (plain ? " plain" : "") + '">' + v + "</span></div>";
+}
+function qline(a, b) { return '<div class="qline"><span>' + a + "</span><span>" + b + "</span></div>"; }
+function hrow(v, chg, cur) {
+  return '<div class="hrow"><span class="vtag ' + cur + '">' + v + '</span><span class="chg">' + chg + "</span></div>";
+}
+function stat(lab, val, unit) {
+  return '<div class="stat"><div class="lab">' + lab + '</div><div class="val">' + val +
+    (unit ? ' <span class="u">' + unit + "</span>" : "") + "</div></div>";
+}
+function orow(id, emp, quote, st, dig, time) {
+  return "<tr><td class=\"mono\">" + id + "</td><td>" + emp + "</td><td>" + quote + "</td>" +
+    '<td><span class="pill ' + st + '">' + st + '</span></td>' +
+    '<td class="mono">' + dig + '</td><td style="color:#94a3b8;font-size:12px">' + time + "</td></tr>";
+}
+function chk(l, r, ok) {
+  return '<div class="chk"><span class="l">' + l + '</span><span class="r">' +
+    (ok ? '<span class="tick">✓</span>' : "") + r + "</span></div>";
+}
+function rej(code, desc) {
+  return '<div style="padding:9px 0;border-bottom:1px dashed var(--border)">' +
+    '<div style="font-family:var(--mono);font-size:12px;font-weight:600;color:#dc2626">' + code + "</div>" +
+    '<div style="font-size:12.5px;color:#475569">' + desc + "</div></div>";
+}
+function lrow(color, nm, meta, badge) {
+  var bg = { "蓝": "#2563eb", "紫": "#7c3aed", "绿": "#059669" }[color];
+  return '<div class="lrow"><div class="avatar" style="background:' + bg + '">' + nm.charAt(0) + "</div>" +
+    '<div><div class="nm">' + nm + '</div><div class="meta">' + meta + "</div></div>" +
+    '<div class="right"><span class="tag">' + badge + "</span>" +
+    '<span class="btn-ghost" style="width:auto;margin:0;padding:5px 12px">发布新版本</span></div></div>';
+}
+
+var tabsEl = document.getElementById("tabs");
+var screensEl = document.getElementById("screens");
+
+SCREENS.forEach(function (sc, i) {
+  var tab = document.createElement("button");
+  tab.className = "tab" + (i === 0 ? " on" : "");
+  tab.innerHTML = '<span class="n">' + sc.n + "</span>" + sc.name;
+  tab.addEventListener("click", function () {
+    Array.prototype.forEach.call(tabsEl.children, function (t) { t.classList.remove("on"); });
+    tab.classList.add("on");
+    Array.prototype.forEach.call(screensEl.children, function (s) { s.classList.add("hidden"); });
+    screensEl.children[i].classList.remove("hidden");
+  });
+  tabsEl.appendChild(tab);
+
+  var frame = document.createElement("div");
+  frame.className = "frame" + (i === 0 ? "" : " hidden");
+  frame.innerHTML =
+    '<div class="frame-bar"><span class="d d1"></span><span class="d d2"></span><span class="d d3"></span>' +
+    '<span class="url">' + sc.url + "</span></div>" +
+    '<div class="app' + (sc.shell ? "" : " single") + '">' + sc.html + "</div>";
+  screensEl.appendChild(frame);
+});
+</script>
+</body>
+</html>
