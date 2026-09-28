@@ -38,6 +38,18 @@
   }
   .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px 72px; }
 
+  /* ---------- top nav ---------- */
+  .topnav { background: var(--surface); border-bottom: 1px solid var(--border);
+    padding: 13px 0; margin-bottom: 34px; }
+  .topnav .inner { max-width: 1180px; margin: 0 auto; padding: 0 24px;
+    display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .topnav .brand { font-weight: 700; font-size: 14.5px; }
+  .topnav .links { display: flex; gap: 6px; }
+  .topnav a { font-size: 13px; color: var(--text-2); text-decoration: none;
+    padding: 5px 12px; border-radius: 7px; border: 1px solid transparent; }
+  .topnav a:hover { background: var(--surface-2); }
+  .topnav a.on { background: var(--blue-soft); color: #1d4ed8; border-color: #bfdbfe; font-weight: 600; }
+
   /* ---------- hero ---------- */
   header.hero {
     padding: 52px 0 34px;
@@ -241,6 +253,18 @@
 </style>
 </head>
 <body>
+
+<div class="topnav">
+  <div class="inner">
+    <span class="brand">数字员工交易平台</span>
+    <div class="links">
+      <a class="on" href="index.html">功能图</a>
+      <a href="screens.html">界面效果图</a>
+      <a href="https://github.com/bytefolk/digital-employee-platform/issues/12">需求 #12</a>
+    </div>
+  </div>
+</div>
+
 <div class="wrap">
 
 <header class="hero">
