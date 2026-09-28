@@ -270,6 +270,12 @@
   .screen-note b { color: #451a03; }
 
   .hidden { display: none; }
+
+  /* bare mode: render only the screen, for static image capture */
+  body.bare .topnav, body.bare header.hero, body.bare .screen-note,
+  body.bare .tabs, body.bare footer { display: none; }
+  body.bare .wrap { padding-top: 26px; }
+  body.bare .frame { margin-bottom: 0; }
   footer { margin-top: 46px; padding-top: 20px; border-top: 1px solid var(--border);
     font-size: 13px; color: var(--text-3); display: flex; flex-wrap: wrap; gap: 8px 18px; }
   footer a { color: var(--blue); text-decoration: none; }
@@ -577,9 +583,16 @@ function lrow(color, nm, meta, badge) {
 var tabsEl = document.getElementById("tabs");
 var screensEl = document.getElementById("screens");
 
+/* ?screen=N (1-based) selects a screen on load, so each one can be captured
+   to a static image without clicking through the tabs. */
+var params = new URLSearchParams(location.search);
+var requested = parseInt(params.get("screen") || "1", 10);
+var initial = (requested >= 1 && requested <= SCREENS.length) ? requested - 1 : 0;
+if (params.get("bare") !== null) { document.body.classList.add("bare"); }
+
 SCREENS.forEach(function (sc, i) {
   var tab = document.createElement("button");
-  tab.className = "tab" + (i === 0 ? " on" : "");
+  tab.className = "tab" + (i === initial ? " on" : "");
   tab.innerHTML = '<span class="n">' + sc.n + "</span>" + sc.name;
   tab.addEventListener("click", function () {
     Array.prototype.forEach.call(tabsEl.children, function (t) { t.classList.remove("on"); });
@@ -590,7 +603,7 @@ SCREENS.forEach(function (sc, i) {
   tabsEl.appendChild(tab);
 
   var frame = document.createElement("div");
-  frame.className = "frame" + (i === 0 ? "" : " hidden");
+  frame.className = "frame" + (i === initial ? "" : " hidden");
   frame.innerHTML =
     '<div class="frame-bar"><span class="d d1"></span><span class="d d2"></span><span class="d d3"></span>' +
     '<span class="url">' + sc.url + "</span></div>" +
