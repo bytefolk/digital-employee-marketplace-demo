@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数字员工交易平台 · 功能图</title>
+<style>
+  :root {
+    --bg: #f6f8fb;
+    --surface: #ffffff;
+    --surface-2: #f1f5f9;
+    --border: #e2e8f0;
+    --border-strong: #cbd5e1;
+    --text: #0f172a;
+    --text-2: #475569;
+    --text-3: #94a3b8;
+    --blue: #2563eb;
+    --blue-soft: #eff6ff;
+    --green: #059669;
+    --green-soft: #ecfdf5;
+    --amber: #d97706;
+    --amber-soft: #fffbeb;
+    --red: #dc2626;
+    --red-soft: #fef2f2;
+    --purple: #7c3aed;
+    --purple-soft: #f5f3ff;
+    --radius: 12px;
+    --shadow: 0 1px 2px rgba(15,23,42,.04), 0 4px 14px rgba(15,23,42,.05);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px 72px; }
+
+  /* ---------- hero ---------- */
+  header.hero {
+    padding: 52px 0 34px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 38px;
+  }
+  .eyebrow {
+    display: inline-block;
+    font-size: 12px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--blue); font-weight: 700; margin-bottom: 12px;
+  }
+  h1 { font-size: 34px; line-height: 1.25; margin: 0 0 14px; letter-spacing: -.01em; }
+  .lede { font-size: 16.5px; color: var(--text-2); max-width: 780px; margin: 0 0 22px; }
+  .lede strong { color: var(--text); font-weight: 600; }
+
+  .hero-meta { display: flex; flex-wrap: wrap; gap: 10px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 999px; padding: 5px 13px; font-size: 12.5px; color: var(--text-2);
+  }
+  .chip b { color: var(--text); font-weight: 600; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; flex: none; }
+  .dot.done { background: var(--green); }
+  .dot.part { background: var(--amber); }
+  .dot.plan { background: var(--text-3); }
+
+  /* ---------- sections ---------- */
+  section { margin-bottom: 46px; }
+  h2 {
+    font-size: 21px; margin: 0 0 6px; letter-spacing: -.005em;
+    display: flex; align-items: baseline; gap: 11px;
+  }
+  h2 .num {
+    font-size: 12px; font-weight: 700; color: var(--text-3);
+    background: var(--surface-2); border-radius: 6px; padding: 2px 8px;
+    letter-spacing: .04em;
+  }
+  .sub { color: var(--text-2); font-size: 14.5px; margin: 0 0 20px; max-width: 820px; }
+
+  /* ---------- flow ---------- */
+  .flow { display: flex; flex-wrap: wrap; gap: 10px; align-items: stretch; }
+  .step {
+    flex: 1 1 150px; min-width: 150px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 15px 15px 13px;
+    cursor: pointer; transition: all .16s ease; position: relative;
+    text-align: left;
+  }
+  .step:hover { border-color: var(--blue); transform: translateY(-2px); box-shadow: var(--shadow); }
+  .step.active { border-color: var(--blue); background: var(--blue-soft); }
+  .step .idx {
+    font-size: 11px; font-weight: 700; color: var(--text-3);
+    letter-spacing: .08em; margin-bottom: 7px;
+  }
+  .step .t { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+  .step .who { font-size: 11.5px; color: var(--text-3); }
+  .step .status {
+    position: absolute; top: 12px; right: 12px;
+    width: 8px; height: 8px; border-radius: 50%;
+  }
+  .status.done { background: var(--green); }
+  .status.part { background: var(--amber); }
+  .status.plan { background: var(--text-3); }
+
+  .detail {
+    margin-top: 14px; background: var(--surface);
+    border: 1px solid var(--border); border-left: 3px solid var(--blue);
+    border-radius: var(--radius); padding: 18px 20px;
+    box-shadow: var(--shadow);
+  }
+  .detail.hidden { display: none; }
+  .detail h3 { margin: 0 0 4px; font-size: 16px; }
+  .detail .tagrow { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+  .tag {
+    font-size: 11.5px; padding: 2px 9px; border-radius: 6px;
+    background: var(--surface-2); color: var(--text-2); border: 1px solid var(--border);
+  }
+  .tag.impl { background: var(--green-soft); color: #065f46; border-color: #a7f3d0; }
+  .tag.plan { background: var(--amber-soft); color: #92400e; border-color: #fde68a; }
+  .detail p { margin: 0 0 11px; font-size: 14.5px; color: var(--text-2); }
+  .detail p:last-child { margin-bottom: 0; }
+  .detail code {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 12.5px; background: var(--surface-2);
+    padding: 1.5px 5px; border-radius: 4px; border: 1px solid var(--border);
+    color: var(--text);
+  }
+  .detail ul { margin: 0; padding-left: 20px; font-size: 14.5px; color: var(--text-2); }
+  .detail li { margin-bottom: 5px; }
+
+  /* ---------- module cards ---------- */
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(255px, 1fr)); gap: 14px; }
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow);
+  }
+  .card .head { display: flex; align-items: center; gap: 9px; margin-bottom: 9px; }
+  .card .badge {
+    width: 26px; height: 26px; border-radius: 7px; flex: none;
+    display: grid; place-items: center; font-size: 11px; font-weight: 700; color: #fff;
+  }
+  .card h4 { margin: 0; font-size: 15px; }
+  .card .file {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12px; color: var(--blue); margin-bottom: 10px;
+  }
+  .card p { margin: 0 0 12px; font-size: 13.5px; color: var(--text-2); }
+  .card .issue {
+    font-size: 12px; color: var(--text-3); border-top: 1px dashed var(--border);
+    padding-top: 10px;
+  }
+  .card .issue a { color: var(--blue); text-decoration: none; }
+  .card .issue a:hover { text-decoration: underline; }
+
+  /* ---------- state machine ---------- */
+  .sm-wrap {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 26px 22px; box-shadow: var(--shadow);
+    overflow-x: auto;
+  }
+  .sm { display: flex; align-items: center; gap: 0; min-width: 660px; justify-content: center; }
+  .node {
+    border-radius: 10px; padding: 12px 20px; font-size: 14px; font-weight: 600;
+    border: 2px solid var(--border-strong); background: var(--surface-2); color: var(--text-2);
+    white-space: nowrap; cursor: pointer; transition: all .15s;
+  }
+  .node.start { border-color: var(--blue); background: var(--blue-soft); color: #1e40af; }
+  .node.term { border-color: var(--green); background: var(--green-soft); color: #065f46; }
+  .node:hover { transform: translateY(-1px); }
+  .node.on { box-shadow: 0 0 0 3px rgba(37,99,235,.16); }
+  .arrow { flex: 1; height: 2px; background: var(--border-strong); position: relative; min-width: 40px; }
+  .arrow::after {
+    content: ""; position: absolute; right: -1px; top: -4px;
+    border-left: 7px solid var(--border-strong);
+    border-top: 5px solid transparent; border-bottom: 5px solid transparent;
+  }
+  .term-col { display: flex; flex-direction: column; gap: 10px; }
+  .sm-note {
+    margin: 18px 0 0; font-size: 13.5px; color: var(--text-2);
+    border-top: 1px dashed var(--border); padding-top: 14px;
+  }
+
+  /* ---------- reject matrix ---------- */
+  .matrix { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 11px; }
+  .rej {
+    background: var(--surface); border: 1px solid var(--border);
+    border-left: 3px solid var(--red);
+    border-radius: 9px; padding: 13px 15px; box-shadow: var(--shadow);
+  }
+  .rej .code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12.5px; font-weight: 600; color: var(--red); display: block; margin-bottom: 5px;
+  }
+  .rej .desc { font-size: 13px; color: var(--text-2); margin: 0; }
+
+  /* ---------- boundary ---------- */
+  .boundary {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow);
+  }
+  .b-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+  @media (max-width: 720px) { .b-cols { grid-template-columns: 1fr; } }
+  .b-col h5 { margin: 0 0 11px; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+  .b-col h5 .swatch { width: 10px; height: 10px; border-radius: 3px; }
+  .b-col ul { margin: 0; padding-left: 19px; font-size: 13.5px; color: var(--text-2); }
+  .b-col li { margin-bottom: 7px; }
+
+  /* ---------- delivery table ---------- */
+  table { width: 100%; border-collapse: collapse; background: var(--surface);
+    border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;
+    box-shadow: var(--shadow); font-size: 13.5px; }
+  th, td { text-align: left; padding: 12px 15px; border-bottom: 1px solid var(--border); }
+  th { background: var(--surface-2); font-size: 12px; text-transform: uppercase;
+    letter-spacing: .05em; color: var(--text-2); font-weight: 700; }
+  tr:last-child td { border-bottom: none; }
+  td a { color: var(--blue); text-decoration: none; font-weight: 500; }
+  td a:hover { text-decoration: underline; }
+  .pill { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 999px;
+    border: 1px solid transparent; white-space: nowrap; }
+  .pill.ready { background: var(--green-soft); color: #065f46; border-color: #a7f3d0; }
+  .pill.reported { background: var(--amber-soft); color: #92400e; border-color: #fde68a; }
+  .pill.open { background: var(--blue-soft); color: #1e40af; border-color: #bfdbfe; }
+
+  /* ---------- honesty note ---------- */
+  .note {
+    background: var(--amber-soft); border: 1px solid #fde68a;
+    border-left: 3px solid var(--amber);
+    border-radius: var(--radius); padding: 16px 20px; font-size: 14px; color: #78350f;
+  }
+  .note b { color: #451a03; }
+  .note ul { margin: 9px 0 0; padding-left: 20px; }
+  .note li { margin-bottom: 4px; }
+
+  footer {
+    margin-top: 50px; padding-top: 22px; border-top: 1px solid var(--border);
+    font-size: 13px; color: var(--text-3); display: flex; flex-wrap: wrap; gap: 8px 18px;
+  }
+  footer a { color: var(--blue); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <span class="eyebrow">ByteFolk · Digital Employee Marketplace</span>
+  <h1>数字员工交易平台 · 功能图</h1>
+  <p class="lede">
+    一个买方可以<strong>发现已发布的员工版本</strong>、<strong>下单并授权一次运行</strong>，
+    并让该订单去驱动既有的 Runner / Quote / Credit 链路，按<strong>买方自己的 Credit 账户</strong>计费。
+    平台<strong>不运行员工</strong>、<strong>不持有 Agent Host 凭据</strong>、
+    <strong>也不自行判定一次运行可计费</strong>。
+  </p>
+  <div class="hero-meta">
+    <span class="chip"><span class="dot done"></span>内存参考实现 <b>已完成</b></span>
+    <span class="chip"><span class="dot part"></span>持久化与迁移 <b>未落地</b></span>
+    <span class="chip"><span class="dot plan"></span>HTTP API <b>未落地</b></span>
+    <span class="chip">父记录 <b>#12</b></span>
+    <span class="chip">子记录 <b>#14 / #15 / #16</b></span>
+  </div>
+</header>
+
+<!-- 1. 交易链路 -->
+<section>
+  <h2><span class="num">01</span>交易链路</h2>
+  <p class="sub">从卖家发布到买方计费的完整路径。点击任一步骤查看它做了什么、落在哪个文件、以及当前是已实现还是未落地。</p>
+  <div class="flow" id="flow"></div>
+  <div class="detail hidden" id="detail"></div>
+</section>
+
+<!-- 2. 域模块 -->
+<section>
+  <h2><span class="num">02</span>域模块</h2>
+  <p class="sub">交易平台的四个有界模块。每个模块只承接父记录 #12 中属于自己的那几条需求，归属到对应的子记录。</p>
+  <div class="cards">
+    <div class="card">
+      <div class="head"><span class="badge" style="background:#2563eb">C1</span><h4>租户主体</h4></div>
+      <div class="file">src/catalog/principal.ts</div>
+      <p><code>CatalogPrincipal</code> 绑定租户、主体、<code>buyer</code>/<code>seller</code> 角色与操作白名单。身份只来自服务端校验——请求体、请求头、客户端声明的身份一律不认。任何畸形字段统一报 <code>invalid_principal</code>，不泄露是哪个字段错了。</p>
+      <div class="issue">归属 <a href="https://github.com/bytefolk/digital-employee-platform/issues/14">#14</a> · REQ-001 / AC-001</div>
+    </div>
+    <div class="card">
+      <div class="head"><span class="badge" style="background:#7c3aed">C2</span><h4>Listing 版本</h4></div>
+      <div class="file">src/catalog/listing.ts</div>
+      <p><code>ListingCatalog</code> 维护 append-only 的不可变版本。一个版本把 <code>(employeeId, employeeVersion, packageDigest, engine)</code> 绑到<strong>恰好一版</strong> RateCard，并带一个 <code>recordDigest</code>。改价或换包只产生新版本，绝不改动旧版本。</p>
+      <div class="issue">归属 <a href="https://github.com/bytefolk/digital-employee-platform/issues/15">#15</a> · REQ-002 / REQ-006</div>
+    </div>
+    <div class="card">
+      <div class="head"><span class="badge" style="background:#059669">C3</span><h4>订单生命周期</h4></div>
+      <div class="file">src/catalog/order.ts</div>
+      <p><code>OrderBook</code> 提供显式状态机、payload 绑定的幂等键、不可逆终态，以及 <code>OrderAuthorization</code>——其 <code>authorizationDigest</code> 就是那个不可变的、买方可见的放行授权。</p>
+      <div class="issue">归属 <a href="https://github.com/bytefolk/digital-employee-platform/issues/16">#16</a> · REQ-003 / REQ-005</div>
+    </div>
+    <div class="card">
+      <div class="head"><span class="badge" style="background:#d97706">C3</span><h4>放行授权器</h4></div>
+      <div class="file">src/catalog/release-authorizer.ts</div>
+      <p><code>CatalogReleaseAuthorizer</code> 实现了 <code>ReleaseAuthorizer</code> 端口——<code>docs/architecture.md</code> 里记着"仍然缺失"的那一个。它只在持久化的、买方绑定的、未过期订单与传入的 Quote / 版本 / 包摘要 / 引擎<strong>逐项精确匹配</strong>时放行。</p>
+      <div class="issue">归属 <a href="https://github.com/bytefolk/digital-employee-platform/issues/16">#16</a> · REQ-004</div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. 状态机 -->
+<section>
+  <h2><span class="num">03</span>订单状态机</h2>
+  <p class="sub">有界、显式枚举、终态不可逆。点击状态查看它的含义。</p>
+  <div class="sm-wrap">
+    <div class="sm">
+      <div class="node start" data-state="created">created</div>
+      <div class="arrow"></div>
+      <div class="term-col">
+        <div class="node term" data-state="authorized">authorized</div>
+        <div class="node term" data-state="cancelled">cancelled</div>
+        <div class="node term" data-state="expired">expired</div>
+      </div>
+    </div>
+    <p class="sm-note" id="smNote">点击任一状态查看说明。后三个均为终态——一旦进入就不可再变更，重复授权会被拒绝。</p>
+  </div>
+</section>
+
+<!-- 4. 拒绝矩阵 -->
+<section>
+  <h2><span class="num">04</span>放行拒绝矩阵</h2>
+  <p class="sub">授权器不接受调用方提供的摘要，也没有宽松默认值。除了精确匹配之外，每一条路径都会带一个稳定的原因码被拒绝。</p>
+  <div class="matrix">
+    <div class="rej"><span class="code">authorization_not_recorded</span><p class="desc">订单从未被授权，或找不到对应的授权记录。</p></div>
+    <div class="rej"><span class="code">quote_mismatch</span><p class="desc">传入的 Quote 与该订单绑定的 RateCard 快照不一致。</p></div>
+    <div class="rej"><span class="code">employee_mismatch</span><p class="desc">员工 ID 或版本号与该订单所依据的 listing 版本不一致。</p></div>
+    <div class="rej"><span class="code">package_digest_mismatch</span><p class="desc">包摘要不一致——要跑的东西和买方下单时的不是同一个。</p></div>
+    <div class="rej"><span class="code">engine_mismatch</span><p class="desc">执行引擎与 listing 版本声明的不一致。</p></div>
+    <div class="rej"><span class="code">authorization_expired</span><p class="desc">订单或授权已过期，由服务端时钟判定，绝不信客户端时间。</p></div>
+  </div>
+</section>
+
+<!-- 5. 边界 -->
+<section>
+  <h2><span class="num">05</span>平台边界</h2>
+  <p class="sub">这条边界是这个平台的立身之本：可选的控制面，而不是第二个 Agent 运行时。</p>
+  <div class="boundary">
+    <div class="b-cols">
+      <div class="b-col">
+        <h5><span class="swatch" style="background:#059669"></span>平台负责</h5>
+        <ul>
+          <li>在 API 边界认证租户与买卖方身份</li>
+          <li>维护 listing 的不可变版本与其 RateCard 绑定</li>
+          <li>驱动订单生命周期并产出不可变授权摘要</li>
+          <li>按持久化的买方授权放行一次运行</li>
+          <li>产出<strong>授权证据</strong>，供既有 Runner / 账务内核消费</li>
+        </ul>
+      </div>
+      <div class="b-col">
+        <h5><span class="swatch" style="background:#dc2626"></span>平台绝不</h5>
+        <ul>
+          <li>运行员工、Agent Host、模型循环或 MCP 进程</li>
+          <li>存储或分发包体，解析本地包路径</li>
+          <li>持有 Host / 模型凭据</li>
+          <li>写 Credit、预留、结算、应收或任务 / 尝试 / 回执状态</li>
+          <li>接受调用方提供的摘要，或自行判定一次运行可计费</li>
+          <li>做支付收款、卖家出款、税务、退款或纠纷处理</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. 交付状态 -->
+<section>
+  <h2><span class="num">06</span>交付状态</h2>
+  <p class="sub">需求记录与实现的对应关系。三条子记录是<strong>串行链</strong>（listing 要先有主体，order 要先有 listing），不是可并行铺开的集合。</p>
+  <table>
+    <thead><tr><th>记录</th><th>范围</th><th>状态</th><th>承接</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><a href="https://github.com/bytefolk/digital-employee-platform/issues/12">#12</a> 父记录</td>
+        <td>买方侧 catalog / order 域的整体结果</td>
+        <td><span class="pill ready">ready</span></td>
+        <td>REQ-001…006 / AC-001…006</td>
+      </tr>
+      <tr>
+        <td><a href="https://github.com/bytefolk/digital-employee-platform/issues/14">#14</a> C1</td>
+        <td>租户 / 买卖方主体与 API 边界认证</td>
+        <td><span class="pill reported">reported</span></td>
+        <td>REQ-001 / AC-001</td>
+      </tr>
+      <tr>
+        <td><a href="https://github.com/bytefolk/digital-employee-platform/issues/15">#15</a> C2</td>
+        <td>不可变 listing 版本与持久化</td>
+        <td><span class="pill reported">reported</span></td>
+        <td>REQ-002 / REQ-006 / AC-002 / AC-006</td>
+      </tr>
+      <tr>
+        <td><a href="https://github.com/bytefolk/digital-employee-platform/issues/16">#16</a> C3</td>
+        <td>订单生命周期与真实 ReleaseAuthorizer</td>
+        <td><span class="pill reported">reported</span></td>
+        <td>REQ-003/004/005 / AC-003/004/005</td>
+      </tr>
+      <tr>
+        <td><a href="https://github.com/bytefolk/digital-employee-platform/pull/13">PR #13</a></td>
+        <td>内存参考实现（域模型 + 端到端闭环）</td>
+        <td><span class="pill open">open · CI 5/5</span></td>
+        <td>四个模块 + 23 条测试</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 7. 诚实声明 -->
+<section>
+  <h2><span class="num">07</span>当前实现到哪一步</h2>
+  <div class="note">
+    <b>这是一张功能图，也是一份范围声明。</b>PR #13 落地的是<strong>内存参考实现</strong>：域模型、状态机、授权器与端到端闭环都已完成并有测试覆盖，但下面这些<strong>还没有落地</strong>，页面上所有标为未落地的步骤都属实：
+    <ul>
+      <li><strong>持久化与迁移</strong>——29 张既有表里没有 listing / order / tenant / buyer，需要新迁移；编号需避开被 M3 预留的 <code>005</code>。</li>
+      <li><strong>面向买方的 HTTP API</strong>——目前只能在进程内构造命令调用。</li>
+      <li><strong>网关签名断言适配器</strong>——租户主体沿用既有的签名断言纪律，但适配器尚未接上。</li>
+      <li><strong>M3 的信任权威</strong>仍然是 HOLD 状态，本平台只产出<strong>授权证据</strong>，不是<strong>计费权威</strong>。</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <span>ByteFolk · digital-employee-marketplace-demo</span>
+  <a href="https://github.com/bytefolk/digital-employee-platform/issues/12">需求记录 #12</a>
+  <a href="https://github.com/bytefolk/digital-employee-platform/pull/13">PR #13</a>
+  <span>数据源自 <code>main</code> @ 23952097 与 PR #13 分支的真实实现</span>
+</footer>
+
+</div>
+
+<script>
+var STEPS = [
+  {
+    t: "卖家认证", who: "seller · 服务端", s: "done",
+    tag: ["已完成", "C1 · #14"],
+    html: "<p>任何 catalog / order 调用都必须先携带一个<strong>服务端校验出来</strong>的 <code>CatalogPrincipal</code>：绑定真实租户、<code>buyer</code> 或 <code>seller</code> 角色，以及一个显式枚举的操作白名单（<code>listing.publish</code> / <code>order.create</code> / <code>order.authorize</code> / <code>order.cancel</code>）。</p><ul><li>请求体、请求头、客户端声明的身份<strong>一律不认</strong>——它们授权不了任何东西。</li><li>角色与操作必须对上：<code>listing.publish</code> 只有 seller 能做，<code>order.*</code> 只有 buyer 能做。</li><li>有界寿命 + 有界时钟偏移；过期或尚未生效的主体直接拒。</li><li>任何畸形字段统一报 <code>invalid_principal</code>，不泄露是哪个字段错了。</li></ul>"
+  },
+  {
+    t: "发布 Listing", who: "seller · listing.publish", s: "done",
+    tag: ["已完成（内存）", "C2 · #15"],
+    html: "<p>发布产生一个<strong>新的不可变版本</strong>，而不是改动旧版本。一个版本把一次已发布的员工身份 <code>(employeeId, employeeVersion SemVer, packageDigest, engine)</code> 绑到<strong>恰好一版</strong> RateCard，并带一个覆盖规范字节的 <code>recordDigest</code>。</p><ul><li>append-only：改价、换包、换引擎只会产生 v2，v1 逐字节保持不变。</li><li>已按 v1 下单的订单，其授权摘要<strong>不会</strong>因为 v2 发布而有任何变化。</li><li>版本号非 SemVer、包摘要畸形、引擎不在枚举内，都会被拒。</li></ul>"
+  },
+  {
+    t: "买方发现", who: "buyer · 读", s: "plan",
+    tag: ["未落地", "HTTP API"],
+    html: "<p>买方要能浏览到已发布的 listing 版本。这一步的<strong>读取语义已经清楚</strong>（读版本、读其 RateCard 快照），但<strong>面向买方的 HTTP 接口尚未落地</strong>——目前只能在进程内构造命令调用。</p><ul><li>属于子记录 #14（主体）与 #15 / #16（路由）范围内的后续工作。</li><li>不含搜索排序、推荐、评分、评价等任何商品化能力。</li></ul>"
+  },
+  {
+    t: "下单", who: "buyer · order.create", s: "done",
+    tag: ["已完成（内存）", "C3 · #16"],
+    html: "<p>买方针对某个 listing 版本下单，Quote 从<strong>该版本绑定的 RateCard</strong>取不可变快照。命令必须带幂等键，重放是确定性的。</p><ul><li>同键同载荷重放 → 返回同一条记录，不产生第二个订单。</li><li>同键异载荷 → <code>idempotency_key_conflict</code>，直接失败关闭。</li><li>Quote 与 listing 版本不匹配的任何字段 → <code>order_quote_mismatch</code>。</li></ul>"
+  },
+  {
+    t: "授权", who: "buyer · order.authorize", s: "done",
+    tag: ["已完成（内存）", "C3 · #16"],
+    html: "<p>订单进入 <code>authorized</code> 并写入一条 append-only 的 <code>OrderAuthorization</code>，其 <code>authorizationDigest</code> 就是那个不可变的、买方可见的放行授权——正是 <code>ReleaseAuthorizer</code> 端口要消费的东西。</p><ul><li>终态不可逆：<code>authorized</code> / <code>cancelled</code> / <code>expired</code> 一旦进入就不能再变更，二次授权被拒。</li><li>过期由<strong>服务端时钟</strong>判定，绝不信客户端时间。</li></ul>"
+  },
+  {
+    t: "放行", who: "控制平面 · ReleaseAuthorizer", s: "done",
+    tag: ["已完成（内存）", "C3 · #16"],
+    html: "<p><code>CatalogReleaseAuthorizer</code> 实现了 <code>ReleaseAuthorizer</code> 端口——<code>docs/architecture.md</code> 里记着“仍然缺失”、且 <code>src/runner-control-plane.ts</code> 明确拒绝提供宽松默认的那一个。控制平面在放行时逐项比对，匹配才让任务进入可认领状态。</p><ul><li>逐项精确比对 Quote、员工版本、包摘要、引擎、买方与租户。</li><li>不匹配 → 带稳定原因码拒绝，<strong>不预留 Credits、不产生可认领任务</strong>。</li><li><strong>不存在</strong>接受调用方提供摘要的路径，也<strong>没有</strong>宽松默认值。</li></ul>"
+  },
+  {
+    t: "执行与计费", who: "发布方 · Runner + 账务内核", s: "plan",
+    tag: ["平台之外", "M1 / M2 / M3"],
+    html: "<p>员工在<strong>发布方自己的机器</strong>上由 Runner 执行，平台不运行它。用量需经 M3 的权威验证后，才由 M2 的账务内核按整数 Credits 扣减，并生成独立的卖家应收。</p><ul><li>平台只提供到“放行授权证据”为止——它不判定一次运行是否可计费。</li><li>M3 仍是 HOLD：生产用量 / 信任权威未决，本平台不解开它。</li><li>Credits 是整数记账单位，绝不用浮点算钱；卖家出款是独立应收，不是钱包余额。</li></ul>"
+  }
+];
+
+var SM = {
+  created: "<b>created</b> — 订单已建立，处于开放状态。可以被授权、被取消，或随过期时间到期。",
+  authorized: "<b>authorized</b> — 终态。已写入不可变授权摘要，可以驱动放行。不可再取消、不可二次授权。",
+  cancelled: "<b>cancelled</b> — 终态。已被取消，不可逆，不产生任何授权摘要。",
+  expired: "<b>expired</b> — 终态。超过授权有效期，由服务端时钟判定，不可逆。"
+};
+
+var flowEl = document.getElementById("flow");
+var detailEl = document.getElementById("detail");
+var smNote = document.getElementById("smNote");
+
+STEPS.forEach(function (step, i) {
+  var el = document.createElement("div");
+  el.className = "step";
+  el.innerHTML =
+    '<span class="status ' + step.s + '"></span>' +
+    '<div class="idx">STEP ' + (i + 1) + "</div>" +
+    '<div class="t">' + step.t + "</div>" +
+    '<div class="who">' + step.who + "</div>";
+  el.addEventListener("click", function () {
+    var already = el.classList.contains("active");
+    Array.prototype.forEach.call(flowEl.children, function (c) { c.classList.remove("active"); });
+    if (already) { detailEl.classList.add("hidden"); return; }
+    el.classList.add("active");
+    var tags = step.tag.map(function (t) {
+      var cls = /已完成/.test(t) ? "impl" : "plan";
+      return '<span class="tag ' + cls + '">' + t + "</span>";
+    }).join("");
+    detailEl.innerHTML =
+      "<h3>步骤 " + (i + 1) + " · " + step.t + "</h3>" +
+      '<div class="tagrow">' + tags + "</div>" + step.html;
+    detailEl.classList.remove("hidden");
+  });
+  flowEl.appendChild(el);
+});
+
+Array.prototype.forEach.call(document.querySelectorAll(".node"), function (n) {
+  n.addEventListener("click", function () {
+    Array.prototype.forEach.call(document.querySelectorAll(".node"), function (m) { m.classList.remove("on"); });
+    n.classList.add("on");
+    smNote.innerHTML = SM[n.getAttribute("data-state")];
+  });
+});
+</script>
+</body>
+</html>
